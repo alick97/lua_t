@@ -1,0 +1,13 @@
+print(4 and 5)
+print(nil and 13)
+print(false and 13)
+print(4 or 5)
+print("- 4 ? 5: 6")
+print((4 and 5) or 6)
+print((4 and false) or 6)
+-- just false and nil is false in lua
+print(0 and 1)
+print("--- not")
+print(not 0)
+print(not nil)
+print(not false)
