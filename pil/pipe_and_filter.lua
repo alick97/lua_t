@@ -1,10 +1,11 @@
 local function receive(prod)
-    local status, value = coroutine.resume(prod)
+    local status, value = coroutine.resume(prod, "dummay send get val")
     return value
 end
 
 local function send(x)
-  coroutine.yield(x)
+  -- yield get value from resume and resum get val from yield, yield link resume
+  print("send get param: ", coroutine.yield(x))
 end
 
 local function producer()
