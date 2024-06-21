@@ -32,3 +32,12 @@ co = coroutine.create(function ()
 end)
 print(coroutine.resume(co))   --> true  6  7
 print(coroutine.resume(co))   -- false
+
+print("---------")
+co = coroutine.create(function ()
+    coroutine.yield(1)
+    return 6, 7
+end)
+print(coroutine.resume(co))   --> true  1
+print(coroutine.resume(co))   --> true  6  7
+print(coroutine.resume(co))   -- false
