@@ -53,16 +53,34 @@ static int getsize (lua_State *L) {
     return 1;
 }
 
-static const struct luaL_reg arraylib [] = {
+static int array2string (lua_State *L) {
+    NumArray *a = checkarray(L);
+    lua_pushfstring(L, "array<%p>(%d)", a, a->size);
+    return 1;
+}
+
+static const struct luaL_reg arraylib_f [] = {
     {"new", newarray},
+    {NULL, NULL}
+};
+    
+static const struct luaL_reg arraylib_m [] = {
     {"set", setarray},
     {"get", getarray},
     {"size", getsize},
+    {"__tostring", array2string},
     {NULL, NULL}
 };
 
 int luaopen_libnum_array (lua_State *L) {
     luaL_newmetatable(L, __METATABLE_NAME);
-    luaL_openlib(L, "array", arraylib, 0);
+    lua_pushstring(L, "__index");
+    lua_pushvalue(L, -2);  /* pushes the metatable */
+    lua_settable(L, -3);  /* metatable.__index = metatable */
+    
+    // Register methods directly into the metatable
+    luaL_openlib(L, NULL, arraylib_m, 0);
+    
+    luaL_openlib(L, "array", arraylib_f, 0);
     return 1;
 }
