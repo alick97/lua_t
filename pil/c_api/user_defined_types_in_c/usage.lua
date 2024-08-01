@@ -21,11 +21,14 @@ require("libnum_array")
 a = array.new(1000)
 -- print(a)               --> userdata: 0x8064d48
 print(a)               --> tostring method array<0x5576016c1b18>(1000)
-print(a:size(a))   --> 1000
+print(a:size())   --> 1000
 for i=1,1000 do
   a:set(i, 1/i)
 end
 print(a:get(10))  --> 0.1
+a[10] = 1.1
+print(a:get(10))
+
 -- array.get(io.stdio, 10) --> error: bad argument #1 to `getarray' (`array' expected)
 
 

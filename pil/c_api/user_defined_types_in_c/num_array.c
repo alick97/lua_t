@@ -74,13 +74,17 @@ static const struct luaL_reg arraylib_m [] = {
 
 int luaopen_libnum_array (lua_State *L) {
     luaL_newmetatable(L, __METATABLE_NAME);
-    lua_pushstring(L, "__index");
-    lua_pushvalue(L, -2);  /* pushes the metatable */
-    lua_settable(L, -3);  /* metatable.__index = metatable */
-    
     // Register methods directly into the metatable
     luaL_openlib(L, NULL, arraylib_m, 0);
     
+    lua_pushstring(L, "__index");
+    lua_pushvalue(L, -2);  /* pushes the metatable */
+    lua_settable(L, -3);  /* metatable.__index = metatable */
+
+    lua_pushstring(L, "__newindex");
+    lua_pushcfunction(L, setarray); // Use setarray_index for __newindex
+    lua_settable(L, -3); // metatable.__newindex = setarray_index
+    
     luaL_openlib(L, "array", arraylib_f, 0);
-    return 1;
+    return 0;
 }
